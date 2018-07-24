@@ -24,19 +24,19 @@ ISO_FILENAME=
 usage() {
 cat <<EOF
 
-Create a custom FreeBSD ISO with the necessary packages and tooling installed
+Create a custom HardenedBSD ISO with the necessary packages and tooling installed
 for deploying on SmartOS, Triton and the Joyent Public Cloud.
 
 Usage:
 	$0 -r <RELEASE> -m <MIRROR> -p <MIRROR_PATH> -i <ISO> -c <ISO_CHECKSUM> -d <ISO_DIR> -M <ISO_MOUNT> -l <ISO_LAYOUT> -f <ISO_FILENAME>
 
 Example:
-	$0 -r 11.0 -m ftp.freebsd.org -p /pub/FreeBSD/releases/ISO-IMAGES  -i FreeBSD-11.0-RELEASE-amd64-disc1.iso -c CHECKSUM.SHA256-FreeBSD-11.0-RELEASE-amd64 -d /data/freebsd-iso -M /mnt/freebsd-iso -l /data/freebsd-custom-11.0 -f freebsd-11.0-custom.iso
+	$0 -r hardenedbsd-11-stable-20180721-1 -m dk-01.installer.hardenedbsd.org -p /pub/HardenedBSD/releases/amd64/amd64/ISO-IMAGES -i HardenedBSD-11-STABLE-v1100056.1-amd64-disc1.iso -c CHECKSUM.SHA256 -d /data/hbsd-iso -M /mnt/hbsd-iso -l /data/hbsd-custom-11 -f hbsd-11-custom.iso
 
 OPTIONS:
-	-r The desired FreeBSD release (e.g., 11.0)
-	-m The mirror to use when downloading the release ISO. Do not include protocol (e.g., ftp://). Assumes ftp mirror
-	-p The desired mirror path to the ISO (e.g., /pub/FreeBSD/releases/ISO-IMAGES)
+	-r The desired HardenedBSD release (e.g., hardenedbsd-11-stable-20180721-1)
+	-m The mirror to use when downloading the release ISO. Do not include protocol (e.g., http://). Assumes http mirror
+	-p The desired mirror path to the ISO (e.g., /pub/HardenedBSD/releases/amd64/amd64/ISO-IMAGES)
 	-i The ISO filename
 	-c The name of the checksum file for the ISO
 	-d The location to save the dowloaded ISO. Must be absolute path.
@@ -145,7 +145,7 @@ fetch_iso() {
 	fi
 
 	echo "==> Fetching ${ISO_CHECKSUM}"
-	curl -sS -o ${ISO_DIR}/${ISO_CHECKSUM} ftp://${MIRROR}/${MIRROR_PATH}/${RELEASE}/${ISO_CHECKSUM}
+	curl -sS -o ${ISO_DIR}/${ISO_CHECKSUM} http://${MIRROR}/${MIRROR_PATH}/${RELEASE}/${ISO_CHECKSUM}
 
 	echo "==> Checking for local copy of $ISO..."
 	if [[ -e $ISO_DIR/$ISO ]]; then
@@ -153,7 +153,7 @@ fetch_iso() {
 	else
 		echo "==> Local copy not found."
 		echo "==> Fetching ISO from $MIRROR..."
-		curl -sS -o ${ISO_DIR}/${ISO} ftp://${MIRROR}/${MIRROR_PATH}/${RELEASE}/${ISO}
+		curl -sS -o ${ISO_DIR}/${ISO} http://${MIRROR}/${MIRROR_PATH}/${RELEASE}/${ISO}
 		echo "==> Done!"
 		echo "==> ${ISO} saved to $ISO_DIR/"
 

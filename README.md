@@ -1,10 +1,10 @@
-# freebsd-kvm-image-builder
+# hardenedbsd-kvm-image-builder
 
-This repo creates a custom FreeBSD install ISO and a KVM image for use in SmartOS and Triton.
+This repo creates a custom HardenedBSD install ISO and a KVM image for use in SmartOS and Triton.
 
 ## Requirements
 
-This must be run on a FreeBSD machine or VirtualMachine.
+This must be run on a HardenedBSD machine or VirtualMachine.
 
 ## Setup
 
@@ -27,7 +27,7 @@ see `./create-iso -h` for usage
 
 This will download an ISO, created a customized layout with installerconfig, install the Triton guesttools then build the custom ISO.
 
-To build the FreeBSD KVM image run the `create-image` script:
+To build the HardenedBSD KVM image run the `create-image` script:
 
 ```
 ./create-image -i <ISO> -n <IMAGE_NAME> -d <DESC> -u <HOMEPAGE> -o <OWNER_UUID> -p <IP> -m NETMASK -g <GATEWAY> -v <VLAN_ID> -U <NETWORK_UUID>
